@@ -2659,7 +2659,7 @@
         "type": "function",
         "z": "a40555ac.72c858",
         "name": "Hi Init",
-        "func": "msg.payload.content=\"Checkpoint: \" + new Date().toString(); \n//msg.payload.content=\"Manuel ist ne Nase\"; \n\nreturn msg;",
+        "func": "msg.payload.content=\"Checkpoint: \" + new Date().toString(); \n//msg.payload.content=\"Manuel ist ne Nase\"; \n\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 990,
