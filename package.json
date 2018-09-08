@@ -5,7 +5,6 @@
     "dependencies": {
         "node-red-contrib-chatbot": "0.13.6",
         "node-red-contrib-os": "0.1.7",
-        "node-red-contrib-telegrambot": "4.0.1",
         "ti-message": "0.0.1"
     },
     "node-red": {
