@@ -1,0 +1,40 @@
+<script type="text/javascript">
+    RED.nodes.registerType('ti-message',{
+        category: 'function',
+        color: '#FFFFFF',
+        defaults: {
+            name: {value:"ti Exec Msg"},
+            mqserver: {value:"mqtt://192.168.0.42", required:"true"},
+            intopic: {value:"TI_CONTROLLER"},
+            outtopic: {value:"TI_CMD"}        },
+        inputs:1,
+        outputs:1,
+        icon: " white-globe.png",
+        label: function() {
+            return this.name||"ti-message";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="ti-message">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-mqserver"><i class="icon-tag"></i>MQ Server</label>
+        <input type="text" id="node-input-mqserver">
+    </div>
+    <div class="form-row">
+        <label for="node-input-intopic"><i class="icon-tag"></i>MQ Controller Input Topic</label>
+        <input type="text" id="node-input-intopic">
+    </div>
+    <div class="form-row">
+        <label for="node-input-outtopic"><i class="icon-tag"></i>MQ Cmd Output Topic</label>
+        <input type="text" id="node-input-outtopic">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="ti-message">
+    <p>A simple node that converts the message payloads into all lower-case characters</p>
+</script>

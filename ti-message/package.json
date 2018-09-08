@@ -1,0 +1,22 @@
+{
+  "name": "ti-message",
+  "version": "0.0.1",
+  "description": "Request Response for Timeit24",
+  "main": "ti-message.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "node-red": {
+    "nodes": {
+      "lower-case": "ti-message.js"
+    }
+  },
+  "readme": "Request and Response for Timeit24\n",
+  "readmeFilename": "Readme.md",
+  "_id": "ti-message@0.0.1",
+  "_shasum": "ad1badddd36f70919c98690c70ec93fdcf8b70af",
+  "_from": "../ti-message",
+  "_resolved": "file:../ti-message"
+}
