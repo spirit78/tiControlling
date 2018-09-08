@@ -2,7 +2,11 @@
     "name": "tiControlling",
     "description": "Timeit24 Controlling flows using NodeRed",
     "version": "0.0.1",
-    "dependencies": {},
+    "dependencies": {
+        "node-red-contrib-chatbot": "0.13.6",
+        "node-red-contrib-os": "0.1.7",
+        "node-red-contrib-telegrambot": "4.0.1"
+    },
     "node-red": {
         "settings": {
             "flowFile": "flows_ti.json",
