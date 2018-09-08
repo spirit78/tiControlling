@@ -1,0 +1,12 @@
+{
+    "name": "tiControlling",
+    "description": "Timeit24 Controlling flows using NodeRed",
+    "version": "0.0.1",
+    "dependencies": {},
+    "node-red": {
+        "settings": {
+            "flowFile": "flows_ti.json",
+            "credentialsFile": "flows_ti_cred.json"
+        }
+    }
+}
