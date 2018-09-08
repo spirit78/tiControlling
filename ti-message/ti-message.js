@@ -5,15 +5,15 @@ var mqtt = require('mqtt')
 module.exports = function(RED) {
     function tiMessageNode(config) {
         RED.nodes.createNode(this,config);
-        node = this;
+        var node = this;
 
 	//this.amqpConfig = config.amqp;
-	this.status({fill:"green", shape:"dot", text:"not connected"});
+	node.status({fill:"green", shape:"dot", text:"not connected"});
 
-        this.inFlight ={};
+        node.inFlight ={};
 
         // receiving message from NodeRed flow
-        this.on('input', function(msg) {
+        node.on('input', function(msg) {
             var msgID = node._generator();  //Mesage ID should be date / time combination
             console.log("MsgID:" + msgID);
 
@@ -32,13 +32,13 @@ module.exports = function(RED) {
 
     	    // Change MsgId and Correlation ID
 
-	        this.log('Initial Message:' + message);
+	        node.log('Initial Message:' + message);
 	        json_message = JSON.parse(message);
 	        json_message.msgID = msgID;
 	        json_message.correlationID = msgID;
             json_message.replyTo = "topic://" + config.intopic;
 	        message = JSON.stringify(json_message);
-	        this.log('Final Message:' + message);
+	        node.log('Final Message:' + message);
 
             var MQclient = mqtt.connect(config.mqserver);
 
@@ -67,12 +67,12 @@ module.exports = function(RED) {
             console.log(config.outtopic);*/
         });
 
-	    this.on('close', function() {
+	    node.on('close', function() {
 	        //tidy up
 	        this.log('close');
     	});
 
-        this._generator = function () {
+        node._generator = function () {
             var date = new Date();
             date += " " + Math.floor(Math.random() * 10000);
             return date;
