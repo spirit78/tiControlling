@@ -18,5 +18,8 @@
   "_id": "ti-message@0.0.1",
   "_shasum": "ad1badddd36f70919c98690c70ec93fdcf8b70af",
   "_from": "../ti-message",
-  "_resolved": "file:../ti-message"
+  "_resolved": "file:../ti-message",
+  "dependencies": {
+    "mqtt": "^2.18.8"
+  }
 }

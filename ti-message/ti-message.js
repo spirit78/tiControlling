@@ -1,4 +1,4 @@
-var RED = require(process.env.NODE_RED_HOME + "/red/red");
+//var RED = require(process.env.NODE_RED_HOME + "/red/red");
 var node = null;
 var mqtt = require('mqtt')
 
