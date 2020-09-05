@@ -6,7 +6,8 @@
         "node-red-contrib-chatbot": "0.13.6",
         "node-red-contrib-os": "0.1.7",
         "ti-message": "0.0.1",
-        "node-red-contrib-telegrambot": "8.2.0"
+        "node-red-contrib-telegrambot": "8.2.0",
+        "node-red-contrib-tasmota": "0.9.4"
     },
     "node-red": {
         "settings": {
