@@ -6257,13 +6257,13 @@
         "type": "function",
         "z": "9a4cbe13.3471f",
         "name": "Run Pump",
-        "func": "msg.payload.cmd = '{\"@class\":\"org.timeit.apps.core.Msg\", \\\n                \"destination\":\"' + msg.objUsecase.RESERVOIRPUMP_OF['node'] + '\", \\\n                \"param0\":\"runPowerWithTimeout\", \\\n                \"paramX\":{\"timeout\":\"' + msg.objUsecase.PARAMETER['tray.pumpTimeout'] + '\", \\\n                \"powerName\":\"'+ msg.objUsecase.RESERVOIRPUMP_OF['techName'] + '\", \\\n                \"switchName\":\"' + msg.objUsecase.WATERLEVELUPPER_OF['techName']+ '\"}}';\nmsg.objLog['log'].push('RUN_PUMP: Run pump with timeout:' +   msg.payload.cmd);              \nreturn msg;",
+        "func": "msg.payload.cmd = '{\"@class\":\"org.timeit.apps.core.Msg\", \\\n                \"destination\":\"' + msg.objUsecase.NodeName + '\", \\\n                \"param0\":\"runPowerWithTimeout\", \\\n                \"paramX\":{\"timeout\":\"' + msg.objUsecase['Timeout']  + '\", \\\n                \"powerName\":\"'+  msg.objUsecase.PumpName + '\", \\\n                \"switchName\":\"' + msg.objUsecase.SwitchName + '\"}}';\n                \n//\"switchName\":\"' + msg.objUsecase.WATERLEVELUPPER_OF['techName']+ '\"}}';\nmsg.objLog['log'].push('RUN_PUMP: Run pump with timeout:' +   msg.payload.cmd);              \nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 270,
-        "y": 600,
+        "x": 910,
+        "y": 660,
         "wires": [
             [
                 "426ec623.05f008"
@@ -6278,8 +6278,8 @@
         "mqserver": "mqtt://localhost",
         "intopic": "TI_CONTROLLER",
         "outtopic": "TI_CMD",
-        "x": 470,
-        "y": 600,
+        "x": 1110,
+        "y": 660,
         "wires": [
             [
                 "ae0ee5a.3cba318"
@@ -6316,10 +6316,12 @@
         "y": 80,
         "wires": [
             [
-                "af9a0f26.7e85d"
+                "af9a0f26.7e85d",
+                "91cfe92c.821668"
             ],
             [
-                "c62156a7.4c6b38"
+                "c62156a7.4c6b38",
+                "91cfe92c.821668"
             ]
         ]
     },
@@ -6353,7 +6355,8 @@
         "y": 180,
         "wires": [
             [
-                "173acb3f.d57745"
+                "173acb3f.d57745",
+                "91cfe92c.821668"
             ]
         ]
     },
@@ -6367,8 +6370,8 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 290,
-        "y": 480,
+        "x": 930,
+        "y": 540,
         "wires": [
             [
                 "a8c15a84.bdc9c8"
@@ -6383,13 +6386,13 @@
         "type": "function",
         "z": "9a4cbe13.3471f",
         "name": "Check Upper Level Sensor",
-        "func": "msg.objLog['log'].push(\"CHECK_WATER_UPPERLEVEL:Check if upper Waterlevel in Pipe is already reached\")\nif(msg.objUsecase.DISTANCE_OF.hasOwnProperty('value')) {\n    if (msg.objUsecase.WATERLEVELUPPER_OF['value']=='OFF') {\n       msg.objLog['log'].push('CHECK_WATER_UPPERLEVEL:Water Upperlevel not reached - call fine, ontinue Watering'); \n       return [[msg],[]];    \n    } else {\n        msg.objLog['log'].push('CHECK_WATER_UPPERLEVEL:Water Upperlevel (' + msg.objUsecase.WATERLEVELUPPER_OF['node'] + ') has been reached - watering stopped');\n        msg.objLog['status']=99;\n        msg.objLog['statusMessage']='CHECK_WATER_UPPERLEVEL:Water Upperlevel (' + msg.objUsecase.WATERLEVELUPPER_OF['node'] + ') has been reached - watering stopped';\n        return [[],[msg]];           \n    }\n} else {\n    msg.objLog['log'].push('CHECK_WATER_UPPERLEVEL:Upper Waterlevel Sensor not available');\n    msg.objLog['status']=99;\n    msg.objLog['statusMessage']='CHECK_WATER_UPPERLEVEL:Upper Waterlevel Sensor (' + msg.objUsecase.WATERLEVELUPPER_OF['node'] + ') not available';\n    return [[],[msg]];       \n}\n \n \n",
+        "func": "msg.objLog['log'].push(\"CHECK_WATER_UPPERLEVEL:Check if upper Waterlevel in Pipe is already reached\")\nif(msg.objUsecase.WATERLEVELUPPER_OF.hasOwnProperty('value')) {\n    if (msg.objUsecase.WATERLEVELUPPER_OF['value']=='OFF') {\n        msg.objLog['log'].push('CHECK_WATER_UPPERLEVEL:Water Upperlevel not reached - call fine, ontinue Watering'); \n        msg.objUsecase['Timeout'] = msg.objUsecase.PARAMETER['tray.pumpTimeout'];\n        msg.objUsecase['SwitchName'] = msg.objUsecase.WATERLEVELUPPER_OF['techName'];\n        msg.objUsecase['NodeName']= msg.objUsecase.RESERVOIRPUMP_OF['node'];\n        msg.objUsecase['PumpName']= msg.objUsecase.RESERVOIRPUMP_OF['techName'];\n        \n       return [[msg],[]];    \n    } else {\n        msg.objLog['log'].push('CHECK_WATER_UPPERLEVEL:Water Upperlevel (' + msg.objUsecase.WATERLEVELUPPER_OF['node'] + ') has been reached - watering stopped');\n        msg.objLog['status']=99;\n        msg.objLog['statusMessage']='CHECK_WATER_UPPERLEVEL:Water Upperlevel (' + msg.objUsecase.WATERLEVELUPPER_OF['node'] + ') has been reached - watering stopped';\n        return [[],[msg]];           \n    }\n} else {\n    msg.objLog['log'].push('CHECK_WATER_UPPERLEVEL:Upper Waterlevel Sensor not available');\n    msg.objLog['status']=99;\n    msg.objLog['statusMessage']='CHECK_WATER_UPPERLEVEL:Upper Waterlevel Sensor (' + msg.objUsecase.WATERLEVELUPPER_OF['node'] + ') not available';\n    return [[],[msg]];       \n}\n \n \n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 320,
-        "y": 540,
+        "x": 960,
+        "y": 600,
         "wires": [
             [
                 "ebc88df9.b5c01"
@@ -6429,13 +6432,13 @@
         "type": "function",
         "z": "9a4cbe13.3471f",
         "name": "Pump Fnished",
-        "func": "if(msg.payload.status==20) {\n    msg.objLog['log'].push('WATERING_FINALIZED (SUCCESS in ' + msg.objUsecase._id + '): Watering succesfully finished - run took x seconds:' + msg.payload['statusMessage'] );\n    msg.objLog['log'].push('WATERING_FINALIZED (SUCCESS in ' + msg.objUsecase._id + '):' + JSON.stringify(msg.payload.logMsg));\n    msg.objLog['statusMessage']='WATERING_FINALIZED (SUCCESS in ' + msg.objUsecase._id + '): Watering succesfully finished - run took x seconds:' + msg.payload['statusMessage'];\n    return [[msg],[]];    \n} else {\n    msg.objLog['log'].push('WATERING_FINALIZED (ERROR in ' + msg.objUsecase._id + '): Watering finished with errors / warnings:' + msg.payload['statusMessage'] );\n    msg.objLog['status']=99;\n    msg.objLog['statusMessage']='ERROR in ' + msg.objUsecase._id + ': Watering finished with errors / warnings:' + msg.payload['statusMessage'] ;\n    return [[],[msg]];       \n}\n\n",
+        "func": "if(msg.payload.status==20) {\n    msg.objLog['log'].push(msg.objUsecase._id + ': SUCCESSFULL finished - run took x seconds:' + msg.payload['statusMessage'] );\n    msg.objLog['log'].push(msg.objUsecase._id + ': SUCCESSFULL finished:' + JSON.stringify(msg.payload.logMsg));\n    msg.objLog['statusMessage']= msg.objUsecase._id + ': SUCCESSFULL finished - run took x seconds:' + msg.payload['statusMessage'];\n    return [[msg],[]];    \n} else {\n    msg.objLog['log'].push(msg.objUsecase._id + '): ERROR - finished with errors / warnings:' + msg.payload['statusMessage'] );\n    msg.objLog['status']=99;\n    msg.objLog['statusMessage']= msg.objUsecase._id + ': ERROR - finished with errors / warnings:' + msg.payload['statusMessage'] ;\n    return [[],[msg]];       \n}\n\n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 280,
-        "y": 660,
+        "x": 920,
+        "y": 720,
         "wires": [
             [
                 "2e1f4b01.ab7534"
@@ -6453,8 +6456,8 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 610,
-        "y": 600,
+        "x": 1250,
+        "y": 660,
         "wires": [
             [
                 "72a543ac.ef310c"
@@ -6498,16 +6501,15 @@
         "checkall": "true",
         "repair": false,
         "outputs": 3,
-        "x": 790,
-        "y": 320,
+        "x": 390,
+        "y": 340,
         "wires": [
             [
                 "4c487939.b80988",
                 "a53cd13c.8112c"
             ],
             [
-                "cf42b59c.3c21a8",
-                "a53cd13c.8112c"
+                "9f3378b9.944b68"
             ],
             []
         ]
@@ -6696,8 +6698,8 @@
         "links": [
             "630b0aa2.2ec144"
         ],
-        "x": 575,
-        "y": 540,
+        "x": 1215,
+        "y": 600,
         "wires": []
     },
     {
@@ -6713,205 +6715,6 @@
         "wires": []
     },
     {
-        "id": "cf42b59c.3c21a8",
-        "type": "function",
-        "z": "9a4cbe13.3471f",
-        "name": "Check Water Level",
-        "func": "if(msg.objUsecase.DISTANCE_OF.hasOwnProperty('value')) {\n    return [[msg],[]]\n} else {\n    msg.objLog['log'].push(\"CHECK_RESERVOIR_WATERLEVEL:Distance Sensor in Reservoir  (\" + msg.objUsecase.DISTANCE_OF.node + \") not available\");\n    msg.objLog['status']=99;\n    msg.objLog['statusMessage']=\"CHECK_RESERVOIR_WATERLEVEL:Distance Sensor in Reservoir  (\" + msg.objUsecase.DISTANCE_OF.node + \") not available\";\n    return [[],[msg]]; \n}\n\n",
-        "outputs": 2,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "x": 1010,
-        "y": 480,
-        "wires": [
-            [
-                "8e1eb91.b3d7b48"
-            ],
-            [
-                "999d27fd.55fcd8"
-            ]
-        ]
-    },
-    {
-        "id": "999d27fd.55fcd8",
-        "type": "link out",
-        "z": "9a4cbe13.3471f",
-        "name": "",
-        "links": [
-            "630b0aa2.2ec144"
-        ],
-        "x": 1215,
-        "y": 540,
-        "wires": []
-    },
-    {
-        "id": "8e1eb91.b3d7b48",
-        "type": "function",
-        "z": "9a4cbe13.3471f",
-        "name": "Run Pump",
-        "func": "msg.payload.cmd = '{\"@class\":\"org.timeit.apps.core.Msg\", \\\n                \"destination\":\"' + msg.objUsecase.RESERVOIRBACKPUMP_OF['node'] + '\", \\\n                \"param0\":\"startPower\", \\\n                \"paramX\":{\"interval\":\"' + parseInt(msg.objUsecase.PARAMETER['tray.drainTime']) + '\", \\\n                \"powerName\":\"'+ msg.objUsecase.RESERVOIRBACKPUMP_OF['techName'] + '\"}}';\n                \nmsg.objLog['log'].push('RUN_PUMP: Run pump with interval:' +   msg.payload.cmd);              \nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "x": 990,
-        "y": 600,
-        "wires": [
-            [
-                "ed44042f.c87888",
-                "a53cd13c.8112c"
-            ]
-        ]
-    },
-    {
-        "id": "ed44042f.c87888",
-        "type": "ti-message",
-        "z": "9a4cbe13.3471f",
-        "name": "ti Exec Msg",
-        "mqserver": "mqtt://localhost",
-        "intopic": "TI_CONTROLLER",
-        "outtopic": "TI_CMD",
-        "x": 1190,
-        "y": 600,
-        "wires": [
-            [
-                "92984aee.e91728"
-            ]
-        ]
-    },
-    {
-        "id": "92984aee.e91728",
-        "type": "json",
-        "z": "9a4cbe13.3471f",
-        "name": "",
-        "property": "payload",
-        "action": "",
-        "pretty": false,
-        "x": 1370,
-        "y": 600,
-        "wires": [
-            [
-                "c212487c.1f46b8"
-            ]
-        ]
-    },
-    {
-        "id": "7f130d74.e4ea14",
-        "type": "delay",
-        "z": "9a4cbe13.3471f",
-        "name": "",
-        "pauseType": "delayv",
-        "timeout": "5",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "x": 1220,
-        "y": 680,
-        "wires": [
-            [
-                "42db483e.f7a2e8"
-            ]
-        ]
-    },
-    {
-        "id": "7ca4de30.aab5d",
-        "type": "function",
-        "z": "9a4cbe13.3471f",
-        "name": "DrainFnished",
-        "func": "//Check Reservoir after Water has been drained\nlet curReservoirLevel = parseFloat(msg.payload.paramX['distance']);\nlet initialReservoirLevel = parseFloat(msg.objUsecase.DISTANCE_OF['value']);\nlet runWaterlevel = parseFloat(msg.objUsecase.PARAMETER['tray.waterlevelRun']);\nlet upperLimit = (initialReservoirLevel-runWaterlevel)*0.8;\nlet lowerLimit = (initialReservoirLevel-runWaterlevel)*1.2;\n\nif (upperLimit<=curReservoirLevel<=lowerLimit) {\n    msg.objLog['log'].push('DRAIN PUMP FINALIZED: Checked final Waterlevel after drain: UpperLimit(' + upperLimit + ')<= CurLevel('+ curReservoirLevel +'<=LowerLimit(' + lowerLimit + ')');\n    msg.objLog['status']=20;\n    msg.objLog['statusMessage']='DRAIN PUMP FINALIZED: Checked final Waterlevel after drain: UpperLimit(' + upperLimit + ')<= CurLevel('+ curReservoirLevel +'<=LowerLimit(' + lowerLimit + ')'; \n    return [[msg],[]];    \n} else {\n    msg.objLog['log'].push('DRAIN PUMP FINALIZED (ERROR): Checked final Waterlevel after drain: UpperLimit(' + upperLimit + ')<= CurLevel('+ curReservoirLevel +'<=LowerLimit(' + lowerLimit + ')');\n    msg.objLog['status']=99;\n    msg.objLog['statusMessage']='DRAIN PUMP FINALIZED (ERROR): Checked final Waterlevel after drain: UpperLimit(' + upperLimit + ')<= CurLevel('+ curReservoirLevel +'<=LowerLimit(' + lowerLimit + ')';\n    return [[],[msg]];         \n}\n\n",
-        "outputs": 2,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "x": 1510,
-        "y": 760,
-        "wires": [
-            [
-                "999d27fd.55fcd8"
-            ],
-            [
-                "999d27fd.55fcd8"
-            ]
-        ]
-    },
-    {
-        "id": "c212487c.1f46b8",
-        "type": "function",
-        "z": "9a4cbe13.3471f",
-        "name": "Set Wait Time",
-        "func": "if(msg.payload.status==20) {\n    // Wait until water is drained - tray.draintime in Seconds\n    msg.objLog['log'].push('DRAIN PUMP FINALIZED');\n    msg.objLog['status']=20;\n    msg.objLog['statusMessage']='DRAIN PUMP FINALIZED'; \n\n    msg.delay = parseInt(msg.objUsecase.PARAMETER['tray.drainTime']) * 1000;\n    return [[msg],[]];    \n} else {\n    msg.objLog['log'].push('DRAIN PUMP FINALIZED (ERROR in ' + msg.objUsecase._id + '): Drain Pump finished with errors / warnings:' + msg.payload['statusMessage'] );\n    msg.objLog['status']=99;\n    msg.objLog['statusMessage']='ERROR in ' + msg.objUsecase._id + ': Drain Pump finished with errors / warnings:' + msg.payload['statusMessage'] ;\n    return [[],[msg]];       \n}\n\n   ",
-        "outputs": 2,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "x": 1000,
-        "y": 680,
-        "wires": [
-            [
-                "999d27fd.55fcd8"
-            ],
-            [
-                "999d27fd.55fcd8"
-            ]
-        ]
-    },
-    {
-        "id": "42db483e.f7a2e8",
-        "type": "function",
-        "z": "9a4cbe13.3471f",
-        "name": "Get Reservoir Level",
-        "func": "//TODO- remove Tasmota hard coded device\n\nmsg.payload.cmd = '{\"@class\":\"org.timeit.apps.core.Msg\", \\\n                \"destination\":\"' + msg.objUsecase.DISTANCE_OF.node + '\", \\\n                \"param0\":\"getSensorValues\", \\\n                \"paramX\":{}}';\nmsg.objLog['log'].push('MERGE_TASMOTA_VALUES:Matching UseCase Template with Tasmota Values:' + msg.payload.cmd);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "x": 1020,
-        "y": 760,
-        "wires": [
-            [
-                "e480974d.4f7c38"
-            ]
-        ]
-    },
-    {
-        "id": "e480974d.4f7c38",
-        "type": "ti-message",
-        "z": "9a4cbe13.3471f",
-        "name": "ti Exec Msg",
-        "mqserver": "mqtt://localhost",
-        "intopic": "TI_CONTROLLER",
-        "outtopic": "TI_CMD",
-        "x": 1230,
-        "y": 760,
-        "wires": [
-            [
-                "dea7f989.a64fa8"
-            ]
-        ]
-    },
-    {
-        "id": "dea7f989.a64fa8",
-        "type": "json",
-        "z": "9a4cbe13.3471f",
-        "name": "",
-        "property": "payload",
-        "action": "",
-        "pretty": false,
-        "x": 1370,
-        "y": 760,
-        "wires": [
-            [
-                "7ca4de30.aab5d"
-            ]
-        ]
-    },
-    {
         "id": "a53cd13c.8112c",
         "type": "debug",
         "z": "9a4cbe13.3471f",
@@ -6920,11 +6723,70 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 760,
-        "y": 540,
+        "x": 1240,
+        "y": 500,
         "wires": []
+    },
+    {
+        "id": "91cfe92c.821668",
+        "type": "debug",
+        "z": "9a4cbe13.3471f",
+        "name": "StatusTest",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1580,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "d04da2f5.2e6e4",
+        "type": "comment",
+        "z": "9a4cbe13.3471f",
+        "name": "Watering",
+        "info": "",
+        "x": 1030,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "ea691719.9fc9e8",
+        "type": "comment",
+        "z": "9a4cbe13.3471f",
+        "name": "Drain",
+        "info": "",
+        "x": 630,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "9f3378b9.944b68",
+        "type": "function",
+        "z": "9a4cbe13.3471f",
+        "name": "Check Lower Level Sensor",
+        "func": "msg.objUsecase['Timeout'] = msg.objUsecase.PARAMETER['tray.drainTime'];\nmsg.objUsecase['NodeName']= msg.objUsecase.RESERVOIRBACKPUMP_OF['node'];\nmsg.objUsecase['PumpName']= msg.objUsecase.RESERVOIRBACKPUMP_OF['techName'];\nmsg.objUsecase['SwitchName']= '';\n\nif (typeof msg.objUsecase.WATERLEVELLOWER_OF != \"undefined\") {\n    msg.objLog['log'].push(\"CHECK_WATER_LOWERLEVEL:Check if lower Waterlevel in Pipe is under water ('OFF')\")\n    if(msg.objUsecase.WATERLEVELLOWER_OF.hasOwnProperty('value')) {\n        if (msg.objUsecase.WATERLEVELLOWER_OF['value']=='ON') {\n            msg.objLog['log'].push('CHECK_WATER_LOWERLEVEL:Water Lowerlevel under water - call fine, continue Draining'); \n            msg.objUsecase['SwitchName']= msg.objUsecase.WATERLEVELLOWER_OF['techName'];\n            return [[msg],[]];    \n        } else {\n            msg.objLog['log'].push('CHECK_WATER_LOWERLEVEL:Water Lowerlevel (' + msg.objUsecase.WATERLEVELLOWER_OF['node'] + ') is not enabled / pipe is empty - draining stopped');\n            msg.objLog['status']=99;\n            msg.objLog['statusMessage']='CHECK_WATER_LOWERLEVEL:Water Lowerlevel (' + msg.objUsecase.WATERLEVELLOWER_OF['node'] + ') is not enabled / pipe is empty - draining stopped';\n            return [[],[msg]];           \n        }\n    } else {\n        msg.objLog['log'].push('CHECK_WATER_LOWERLEVEL:Lower Waterlevel Sensor not available');\n        msg.objLog['status']=99;\n        msg.objLog['statusMessage']='CHECK_WATER_LOWERLEVEL:Lower Waterlevel Sensor (' + msg.objUsecase.WATERLEVELLOWER_OF['node'] + ') not available';\n        return [[],[msg]];       \n    }\n} else {\n    msg.objLog['log'].push(\"WATERLEVELLOWER_OF: Sensor not available - Start pump until timeout - \" + msg.objUsecase['Timeout'] + \" sec.(without stop switch)\");\n    return [[msg],[]];  \n}\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 620,
+        "y": 600,
+        "wires": [
+            [
+                "ebc88df9.b5c01"
+            ],
+            [
+                "2e1f4b01.ab7534"
+            ]
+        ]
     }
 ]
