@@ -440,6 +440,58 @@
         "color": "#DDAA99"
     },
     {
+        "id": "3e5891b8.ba2b2e",
+        "type": "subflow",
+        "name": "uc-tool : match wemos",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "fac59f0e.96fc7"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1400,
+                "y": 120,
+                "wires": [
+                    {
+                        "id": "ba01c859.c8e5d8",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 1400,
+                "y": 280,
+                "wires": [
+                    {
+                        "id": "e70a9c23.82583",
+                        "port": 1
+                    }
+                ]
+            },
+            {
+                "x": 1400,
+                "y": 440,
+                "wires": [
+                    {
+                        "id": "e38a6ee4.26bc9",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "color": "#DDAA99"
+    },
+    {
         "id": "cbf41ed0.f5061",
         "type": "mqtt-broker",
         "name": "",
@@ -3498,7 +3550,7 @@
         "type": "telegram sender",
         "z": "ca9455bf.030da8",
         "name": "Telegram Bot - AImy...",
-        "bot": "baa8f94a.4818b8",
+        "bot": "a3498b69.39d4e8",
         "x": 1200,
         "y": 100,
         "wires": [
@@ -6394,53 +6446,6 @@
         ]
     },
     {
-        "id": "3e5891b8.ba2b2e",
-        "type": "subflow",
-        "name": "uc-tool : match wemos",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 60,
-                "y": 160,
-                "wires": [
-                    {
-                        "id": "fac59f0e.96fc7"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 1400,
-                "y": 120,
-                "wires": [
-                    {
-                        "id": "ba01c859.c8e5d8",
-                        "port": 0
-                    }
-                ]
-            },
-            {
-                "x": 1400,
-                "y": 280,
-                "wires": [
-                    {
-                        "id": "e70a9c23.82583",
-                        "port": 1
-                    }
-                ]
-            },
-            {
-                "x": 1400,
-                "y": 440,
-                "wires": []
-            }
-        ],
-        "env": [],
-        "color": "#DDAA99"
-    },
-    {
         "id": "fac59f0e.96fc7",
         "type": "function",
         "z": "3e5891b8.ba2b2e",
@@ -6700,7 +6705,7 @@
         "type": "function",
         "z": "7e101fb1.257b4",
         "name": "Check Upper Level Sensor",
-        "func": "msg.objLog['log'].push(\"CHECK_WATER_UPPERLEVEL:Check if upper Waterlevel in Pipe is already reached\")\nif(msg.objUsecase.WATERLEVELUPPER_OF.hasOwnProperty('value')) {\n    if (msg.objUsecase.WATERLEVELUPPER_OF['value']=='OFF') {\n        msg.objLog['log'].push('CHECK_WATER_UPPERLEVEL:Water Upperlevel not reached - call fine, ontinue Watering'); \n        msg.objUsecase['Timeout'] = msg.objUsecase.PARAMETER['tray.pumpTimeout'];\n        msg.objUsecase['SwitchName'] = msg.objUsecase.WATERLEVELUPPER_OF['techName'];\n        msg.objUsecase['NodeName']= msg.objUsecase.RESERVOIRPUMP_OF['node'];\n        msg.objUsecase['PumpName']= msg.objUsecase.RESERVOIRPUMP_OF['techName'];\n        \n       return [[msg],[]];    \n    } else {\n        msg.objLog['log'].push('CHECK_WATER_UPPERLEVEL:Water Upperlevel (' + msg.objUsecase.WATERLEVELUPPER_OF['node'] + ') has been reached - watering stopped');\n        msg.objLog['status']=99;\n        msg.objLog['statusMessage']='CHECK_WATER_UPPERLEVEL:Water Upperlevel (' + msg.objUsecase.WATERLEVELUPPER_OF['node'] + ') has been reached - watering stopped';\n        return [[],[msg]];           \n    }\n} else {\n    msg.objLog['log'].push('CHECK_WATER_UPPERLEVEL:Upper Waterlevel Sensor not available');\n    msg.objLog['status']=99;\n    msg.objLog['statusMessage']='CHECK_WATER_UPPERLEVEL:Upper Waterlevel Sensor (' + msg.objUsecase.WATERLEVELUPPER_OF['node'] + ') not available';\n    return [[],[msg]];       \n}\n \n \n",
+        "func": "msg.objLog['log'].push(\"CHECK_WATER_UPPERLEVEL:Check if upper Waterlevel in Pipe is already reached\")\nif(msg.objUsecase.WATERLEVELUPPER_OF.hasOwnProperty('value')) {\n    if (msg.objUsecase.WATERLEVELUPPER_OF['value']=='OFF' || msg.objUsecase.WATERLEVELUPPER_OF['value']=='0') {\n        msg.objLog['log'].push('CHECK_WATER_UPPERLEVEL:Water Upperlevel not reached - call fine, continue Watering'); \n        msg.objUsecase['Timeout'] = msg.objUsecase.PARAMETER['tray.pumpTimeout'];\n        msg.objUsecase['SwitchName'] = msg.objUsecase.WATERLEVELUPPER_OF['techName'];\n        msg.objUsecase['NodeName']= msg.objUsecase.RESERVOIRPUMP_OF['node'];\n        msg.objUsecase['PumpName']= msg.objUsecase.RESERVOIRPUMP_OF['techName'];\n        \n       return [[msg],[]];    \n    } else {\n        msg.objLog['log'].push('CHECK_WATER_UPPERLEVEL:Water Upperlevel (' + msg.objUsecase.WATERLEVELUPPER_OF['node'] + ') has been reached - watering stopped');\n        msg.objLog['status']=99;\n        msg.objLog['statusMessage']='CHECK_WATER_UPPERLEVEL:Water Upperlevel (' + msg.objUsecase.WATERLEVELUPPER_OF['node'] + ') has been reached - watering stopped';\n        return [[],[msg]];           \n    }\n} else {\n    msg.objLog['log'].push('CHECK_WATER_UPPERLEVEL:Upper Waterlevel Sensor not available');\n    msg.objLog['status']=99;\n    msg.objLog['statusMessage']='CHECK_WATER_UPPERLEVEL:Upper Waterlevel Sensor (' + msg.objUsecase.WATERLEVELUPPER_OF['node'] + ') not available';\n    return [[],[msg]];       \n}\n \n \n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -6929,6 +6934,7 @@
         "type": "subflow:3e5891b8.ba2b2e",
         "z": "7e101fb1.257b4",
         "name": "",
+        "env": [],
         "x": 660,
         "y": 100,
         "wires": [
